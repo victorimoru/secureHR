@@ -1,0 +1,68 @@
+﻿@using System.Collections.Generic
+@using SecureHR.Shared.Models
+
+<div class="bg-white p-6 rounded-lg shadow-sm">
+    <h3 class="text-lg font-semibold text-slate-800 mb-4">@Title</h3>
+    <ul class="space-y-4">
+        @foreach (var log in Logs)
+        {
+            <li class="flex items-start">
+                <div class="@GetIconBackgroundClass(log.Type) @GetIconTextClass(log.Type) p-2 rounded-full mr-3 mt-1">
+                    @if (log.Type == SecurityLogType.SuccessfulLogin)
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line></svg>
+                    }
+                    else if (log.Type == SecurityLogType.MFAChallenge)
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                    }
+                    else if (log.Type == SecurityLogType.ViewedDocument)
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                    }
+                    else if (log.Type == SecurityLogType.ExportedReport)
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"></path><path d="m16 14-4-4-4 4"></path></svg>
+                    }
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-slate-700">@log.Title</p>
+                    <p class="text-xs text-slate-500">@log.Description</p>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = "Recent Security Log";
+
+    [Parameter]
+    public List<SecurityDetails> Logs { get; set; } = [];
+
+    private string GetIconBackgroundClass(SecurityLogType type)
+    {
+        return type switch
+        {
+            SecurityLogType.SuccessfulLogin => "bg-green-100",
+            SecurityLogType.MFAChallenge => "bg-green-100",
+            SecurityLogType.ViewedDocument => "bg-teal-100",
+            SecurityLogType.ExportedReport => "bg-slate-100",
+            _ => "bg-slate-100"
+        };
+    }
+
+    private string GetIconTextClass(SecurityLogType type)
+    {
+        return type switch
+        {
+            SecurityLogType.SuccessfulLogin => "text-green-600",
+            SecurityLogType.MFAChallenge => "text-green-600",
+            SecurityLogType.ViewedDocument => "text-teal-600",
+            SecurityLogType.ExportedReport => "text-slate-600",
+            _ => "text-slate-600"
+        };
+    }
+}

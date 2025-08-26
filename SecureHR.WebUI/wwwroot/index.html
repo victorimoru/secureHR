@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecureHR.WebUI</title>
+    <base href="/" />
+    <!--<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />-->
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <!--<link href="SecureHR.WebUI.styles.css" rel="stylesheet" />-->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons for modern iconography -->
+    <script src="https://unpkg.com/lucide-react@0.378.0/dist/lucide-react.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Simple scrollbar styling for a more modern look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #64748b;
+            }
+        /* Custom transition for sidebar width */
+        .sidebar {
+            transition: width 0.3s ease-in-out;
+        }
+            /* Hide text when sidebar is collapsed */
+            .sidebar.collapsed .nav-text,
+            .sidebar.collapsed .sidebar-title {
+                display: none;
+            }
+
+            .sidebar.collapsed .sidebar-header {
+                justify-content: center;
+            }
+
+            .sidebar.collapsed .nav-link {
+                justify-content: center;
+            }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="flex items-center justify-center h-screen">
+            <div class="text-center">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500 mb-4"></div>
+                <p class="text-slate-600">Loading SecureHR Dashboard...</p>
+            </div>
+        </div>
+    </div>
+    <div id="blazor-error-ui" class="hidden fixed inset-0 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded max-w-md mx-auto mt-8">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

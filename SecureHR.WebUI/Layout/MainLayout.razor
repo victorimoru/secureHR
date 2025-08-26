@@ -1,0 +1,14 @@
+﻿@using SecureHR.WebUI.Pages
+@inherits LayoutComponentBase
+
+<div class="page flex h-screen bg-slate-100 font-sans antialiased">
+    <Sidebar />
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <Header />
+        <main class="flex-1 overflow-y-auto p-8">
+            <div class="max-w-7xl mx-auto">
+                @Body
+            </div>
+        </main>
+    </div>
+</div>
