@@ -1,4 +1,4 @@
-﻿namespace SecureHR.Core.Domains
+﻿namespace SecureHR.Core.Domains.EmployeeAggregate
 {
     public class SalaryAdjustment
     {
@@ -6,7 +6,6 @@
         public decimal NewSalary { get; private set; }
         public string Reason { get; private set; } 
         public DateTime EffectiveDate { get; private set; }
-
         internal SalaryAdjustment(decimal newSalary, string reason, DateTime effectiveDate)
         {
             if (newSalary <= 0) throw new ArgumentException("Salary must be positive.", nameof(newSalary));

@@ -1,4 +1,4 @@
-﻿namespace SecureHR.Core.Domains
+﻿namespace SecureHR.Core.Domains.EmployeeAggregate
 {
     public class LeaveBooking
     {
@@ -6,6 +6,8 @@
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
         public bool IsCancelled { get; private set; }
+
+        private DateTime? _cancelledAt;
 
         internal LeaveBooking(DateTime startDate, DateTime endDate)
         {
@@ -23,6 +25,7 @@
         internal void Cancel()
         {
             IsCancelled = true;
+            _cancelledAt = DateTime.UtcNow;
         }
     }
 }

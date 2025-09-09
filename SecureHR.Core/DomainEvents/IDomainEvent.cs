@@ -1,7 +1,10 @@
-﻿namespace SecureHR.Core.DomainEvents
+﻿using MediatR;
+
+namespace SecureHR.Core.DomainEvents
 {
-    public interface IDomainEvent
+    public interface IDomainEvent : INotification
     {
          DateTime OccurredOn { get; }
+         string EventType { get; }
     }
 }

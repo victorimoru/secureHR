@@ -1,0 +1,23 @@
+﻿<style>
+    .action-card {
+        border: 2px solid transparent;
+        transition: all 0.2s ease-in-out;
+    }
+</style>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    @foreach (var card in Cards)
+    {
+        <button class="action-card @(card.IsSelected ? "selected" : "") bg-white p-6 rounded-lg shadow-md hover:shadow-xl flex flex-col items-center text-center">
+            <div class="w-16 h-16 @card.IconBgCssClass @card.IconColorCssClass flex items-center justify-center rounded-full mb-4">
+                @card.IconSvg
+            </div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-1">@card.Title</h3>
+            <p class="text-sm text-slate-500">@card.Subtitle</p>
+        </button>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public List<ActionCardModel> Cards { get; set; } = new();
+}

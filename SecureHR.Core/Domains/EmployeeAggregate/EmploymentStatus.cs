@@ -1,4 +1,4 @@
-﻿namespace SecureHR.Core.Domains
+﻿namespace SecureHR.Core.Domains.EmployeeAggregate
 {
     public enum EmploymentStatus
     {

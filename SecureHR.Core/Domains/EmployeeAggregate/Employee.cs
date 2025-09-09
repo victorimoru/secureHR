@@ -1,13 +1,15 @@
-﻿namespace SecureHR.Core.Domains
+﻿using SecureHR.Core.DomainEvents;
+
+namespace SecureHR.Core.Domains.EmployeeAggregate
 {
     public class Employee : AggregateRoot<Guid>
     {
         public Fullname Name { get; private set; }
         public Guid DepartmentId { get; private set; } = Guid.Empty;
-        public Guid ManagerId { get; private set; }
         public DateTime HireDate { get; private set; }
 
         private readonly List<SalaryAdjustment> _salaryAdjustments = [];
+        public Guid? ManagerId { get; private set; } = Guid.Empty;
         public IReadOnlyCollection<SalaryAdjustment> SalaryAdjustments => _salaryAdjustments.AsReadOnly();
         public ContactInfo PersonalContactInfo { get; private set; }
         public decimal CurrentSalary => _salaryAdjustments.OrderByDescending(s => s.EffectiveDate).FirstOrDefault()?.NewSalary ?? 0;
@@ -16,6 +18,7 @@
         private readonly List<LeaveBooking> _leaveBookings = [];
         public IReadOnlyCollection<LeaveBooking> LeaveBookings => _leaveBookings.AsReadOnly();
 
+        private Employee() { }
 
         private Employee(Fullname name, Guid departmentId, DateTime hireDate, ContactInfo contactInfo)
         {
@@ -33,12 +36,23 @@
                 throw new ArgumentException("Initial salary must be positive.", nameof(initialSalary));
             }
 
-            var employee = new Employee(name, departmentId, DateTime.UtcNow, contactInfo);
+            var employee = new Employee(name, departmentId, DateTime.UtcNow, contactInfo)
+            {
+                Id = Guid.NewGuid()
+            };
 
             employee.AdjustSalary(initialSalary, reason);
 
-            //employee.AddDomainEvent(new EmployeeHiredEvent(employee.Id, employee.Name.ToString()));
+            var newHireEvent = new EmployeeHiredEvent(
+                Contact: contactInfo,
+                Name: name,
+                DepartmentId: departmentId,
+                InitialSalary: initialSalary,
+                HireReason: reason,
+                HiredOn: DateTime.UtcNow
+            );
 
+            employee.AddDomainEvent(newHireEvent);
             return employee;
         }
 
@@ -62,7 +76,7 @@
             if (newDepartmentId == DepartmentId)
                 return; 
 
-           // var oldDepartmentId = DepartmentId;
+            var oldDepartmentId = DepartmentId;
             DepartmentId = newDepartmentId;
 
             //AddDomainEvent(new EmployeeTransferredEvent(Id, newDepartmentId, oldDepartmentId));

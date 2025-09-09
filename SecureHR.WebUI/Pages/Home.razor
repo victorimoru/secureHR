@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using SecureHR.Shared.Models
+@using SecureHR.WebUI.Components.QuickActionGrid
 @using SecureHR.WebUI.wwwroot.Shared
 
 <div class="max-w-7xl mx-auto">
@@ -21,45 +22,7 @@
         <button class="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">Review Security</button>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <button class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-left flex items-center gap-4">
-            <div class="bg-green-100 text-green-600 p-3 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="22" x2="16" y1="11" y2="11"></line></svg>
-            </div>
-            <div>
-                <h3 class="font-semibold text-slate-800">Onboard New Hire</h3>
-                <p class="text-sm text-slate-500">Start the process</p>
-            </div>
-        </button>
-        <button class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-left flex items-center gap-4">
-            <div class="bg-green-100 text-green-600 p-3 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-            </div>
-            <div>
-                <h3 class="font-semibold text-slate-800">Approve Requests</h3>
-                <p class="text-sm text-slate-500">3 pending leave requests</p>
-            </div>
-        </button>
-        <button class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-left flex items-center gap-4">
-            <div class="bg-teal-100 text-teal-600 p-3 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m10 13-2 2 2 2"></path><path d="m14 17 2-2-2-2"></path></svg>
-            </div>
-            <div>
-                <h3 class="font-semibold text-slate-800">Generate Report</h3>
-                <p class="text-sm text-slate-500">Payroll or attendance</p>
-            </div>
-        </button>
-        <button class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-left flex items-center gap-4">
-            <div class="bg-slate-100 text-slate-600 p-3 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-            </div>
-            <div>
-                <h3 class="font-semibold text-slate-800">Portal Settings</h3>
-                <p class="text-sm text-slate-500">Manage permissions</p>
-            </div>
-        </button>
-    </div>
+    <QuickActionsGrid Cards="@actionCards" />
 
     <!-- Main Data Tables -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -143,4 +106,22 @@
             Timestamp = DateTime.Now.AddHours(-3)
         }
     };
+
+    private List<ActionCardModel> actionCards = new();
+
+    protected override void OnInitialized()
+    {
+        RenderFragment onboardIcon = @<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="22" x2="16" y1="11" y2="11"></line></svg>;
+        RenderFragment approveIcon = @<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>;
+        RenderFragment reportIcon = @<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m10 13-2 2 2 2"></path><path d="m14 17 2-2-2-2"></path></svg>;
+        RenderFragment settingsIcon = @<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>;
+
+        actionCards = new List<ActionCardModel>
+        {
+            new ActionCardModel { Title = "Onboard New Hire", Subtitle = "Start the process", IconSvg = onboardIcon, IconBgCssClass = "bg-green-100", IconColorCssClass = "text-green-600" },
+            new ActionCardModel { Title = "Approve Requests", Subtitle = "3 pending leave requests", IconSvg = approveIcon, IconBgCssClass = "bg-green-100", IconColorCssClass = "text-green-600", IsSelected = true },
+            new ActionCardModel { Title = "Generate Report", Subtitle = "Payroll or attendance", IconSvg = reportIcon, IconBgCssClass = "bg-teal-100", IconColorCssClass = "text-teal-600" },
+            new ActionCardModel { Title = "Portal Settings", Subtitle = "Manage permissions", IconSvg = settingsIcon, IconBgCssClass = "bg-slate-100", IconColorCssClass = "text-slate-600" }
+        };
+    }
 }
