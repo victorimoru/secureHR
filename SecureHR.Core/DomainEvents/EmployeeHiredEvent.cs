@@ -4,6 +4,8 @@ namespace SecureHR.Core.DomainEvents
 {
     [Serializable]
     public record EmployeeHiredEvent(
+         Guid Id,
+       Guid IdempotencyKey,
        ContactInfo Contact,
        Fullname Name,
        Guid DepartmentId,

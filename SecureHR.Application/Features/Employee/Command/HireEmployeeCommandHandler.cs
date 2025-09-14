@@ -10,7 +10,7 @@ namespace SecureHR.Application.Features.Employee.Command
     {
         public async Task<Guid> Handle(HireEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var IsRequestAlreadyProcessed = await idempotencyRepository.KeyExistsAsync(request.IdempotencyKey, "HireEmployeeCommand", cancellationToken);
+            var IsRequestAlreadyProcessed = await idempotencyRepository.KeyExistsAsync(request.IdempotencyKey, "ProcessedHiredEmployee", cancellationToken);
             if (IsRequestAlreadyProcessed) return request.Id;
             
             var fullName = new Fullname(request.FirstName, request.LastName, request.Title);
