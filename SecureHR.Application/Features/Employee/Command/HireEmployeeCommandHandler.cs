@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using SecureHR.Application.MessageBroker;
 using SecureHR.Core.Domains.EmployeeAggregate;
 using SecureHR.Core.Repositories;
 
 namespace SecureHR.Application.Features.Employee.Command
 {
-    public class HireEmployeeCommandHandler(IIdempotencyRepository idempotencyRepository) : IRequestHandler<HireEmployeeCommand, Guid>
+    public class HireEmployeeCommandHandler(IIdempotencyRepository idempotencyRepository, 
+                                            IMessageBus messageBus) : IRequestHandler<HireEmployeeCommand, Guid>
     {
         public async Task<Guid> Handle(HireEmployeeCommand request, CancellationToken cancellationToken)
         {
@@ -18,7 +20,7 @@ namespace SecureHR.Application.Features.Employee.Command
 
             foreach (var domainEvent in newHire.DomainEvents)
             {
-               // await _publisher.Publish(domainEvent, ct);
+               await messageBus.PublishAsync(domainEvent, cancellationToken);
             }
 
             newHire.ClearDomainEvents();
